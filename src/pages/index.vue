@@ -1,6 +1,9 @@
 <template>
   <div class="index">
-    <el-data-table v-bind="$data">
+    <el-data-table
+      v-bind="$data"
+      ref="elDataTable"
+    >
     </el-data-table>
   </div>
 </template>
@@ -46,17 +49,12 @@ export default {
         {
           prop: 'status',
           label: '状态',
-          formatter: row => {
-            let status = row.status == 0 ? '下线' : '上线',
-              tag = ''
-            if (row.status == 0) {
-              tag = <span />
-            } else {
-              tag = <span class="el-item-status" />
-            }
-            tag.text = status
-            return tag
-          }
+          formatter: row =>
+            row.status === 1 ? (
+              <div class="el-item-status">上架</div>
+            ) : (
+              <div>下架</div>
+            )
         }
       ],
       searchForm: [
@@ -79,8 +77,26 @@ export default {
           $type: 'input'
         }
       ],
-      hasView: true,
+      // hasView: true,
+      hasEdit: false,
       extraButtons: [
+        {
+          type: 'primary',
+          text: '查看',
+          atClick: row => {
+            // hack处理，el-data-table 未暴露弹窗调出接口
+            this.$refs['elDataTable'].onDefaultView(row)
+            return Promise.resolve()
+          }
+        },
+        {
+          text: '编辑',
+          atClick: row => {
+            // hack处理，el-data-table 未暴露弹窗调出接口
+            this.$refs['elDataTable'].onDefaultEdit(row)
+            return Promise.resolve()
+          }
+        },
         {
           text: '下架',
           atClick: row => {
