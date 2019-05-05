@@ -9,7 +9,15 @@
 </template>
 
 <script>
-const pageSize = 10
+const pageSize = 10,
+  categoryType = {
+    0: '前端组件',
+    1: '测试子组件',
+    2: '分布式工具',
+    3: '应用服务',
+    4: '数据存储',
+    5: '分布式存储'
+  }
 import Tools from '@/assets/js/tools'
 export default {
   data() {
@@ -22,15 +30,7 @@ export default {
           prop: 'categoryType',
           label: '分类',
           formatter: row => {
-            let obj = {
-              0: '前端组件',
-              1: '测试子组件',
-              2: '分布式工具',
-              3: '应用服务',
-              4: '数据存储',
-              5: '分布式存储'
-            }
-            return obj[row.categoryType]
+            return categoryType[row.categoryType]
           }
         },
         {prop: 'version', label: '版本'},
@@ -174,7 +174,7 @@ export default {
           $id: 'status',
           label: '状态',
           rules: [{required: true, message: '请选择状态', trigger: 'blur'}],
-          $options: ['下线', '上线'].map((f, index) => ({
+          $options: ['下架', '上架'].map((f, index) => ({
             label: f,
             value: index
           })),
