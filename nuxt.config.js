@@ -16,18 +16,12 @@ const config = {
     mock: {
       '/deepexi-tenant': mockServer,
       '/deepexi-permission': mockServer,
-      '/getList': mockServer2,
-      '/editList': mockServer2,
-      '/newList': mockServer2,
-      '/deletelistItem': mockServer2
+      '/componentList': mockServer2
     },
     dev: {
       '/deepexi-tenant': apiServer,
       '/deepexi-permission': apiServer,
-      '/getList': mockServer2,
-      '/editList': mockServer2,
-      '/newList': mockServer2,
-      '/deletelistItem': mockServer2
+      '/componentList': apiServer
     }
   }
 }

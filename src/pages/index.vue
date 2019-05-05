@@ -1,21 +1,17 @@
 <template>
   <div class="index">
-    <el-data-table
-      v-bind="$data"
-      :onNew="onNew"
-      :onEdit="onEdit"
-      :onDelete="onDelete"
-    >
+    <el-data-table v-bind="$data">
     </el-data-table>
   </div>
 </template>
 
 <script>
 const pageSize = 10
+import Tools from '@/assets/js/tools'
 export default {
   data() {
     return {
-      url: '/getList',
+      url: '/componentList',
       columns: [
         {type: 'selection'},
         {prop: 'componentName', label: '组件名称'},
@@ -40,7 +36,13 @@ export default {
           label: '开发语言',
           width: '150px'
         },
-        {prop: 'lastUpdateTime', label: '最后更新时间'},
+        {
+          prop: 'lastUpdateTime',
+          label: '最后更新时间',
+          formatter: row => {
+            return Tools.formateTime(row.lastUpdateTime)
+          }
+        },
         {
           prop: 'status',
           label: '状态',
@@ -82,7 +84,7 @@ export default {
         {
           text: '下架',
           atClick: row => {
-            this.$axios.$delete('/deletelistItem', {
+            this.$axios.$delete(`/componentList/${row.id}`, {
               data: [row.id]
             })
             return Promise.resolve()
@@ -168,19 +170,7 @@ export default {
     }
   },
   computed: {},
-  methods: {
-    onNew(data, row) {
-      return this.$axios.$post('/newList', {...data})
-    },
-    onEdit(data, row) {
-      return this.$axios.$post('/editList', {...data})
-    },
-    onDelete(selected) {
-      return this.$axios.$delete('/deletelistItem', {
-        data: selected.id || selected.map(v => v.id)
-      })
-    }
-  }
+  methods: {}
 }
 </script>
 <style lang="less" scoped>
